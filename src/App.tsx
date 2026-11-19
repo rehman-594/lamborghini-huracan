@@ -18,9 +18,9 @@ export default function App() {
   const scrollProgressRef = useRef(0);
   const lenisInstanceRef = useRef<Lenis | null>(null);
 
-  // Fallback timer ensures initial curtain lifts promptly even on slow connections
+  // Safety fallback timer in case of catastrophic network failure
   useEffect(() => {
-    const timer = window.setTimeout(() => setBooted(true), 1200);
+    const timer = window.setTimeout(() => setBooted(true), 45000);
     return () => window.clearTimeout(timer);
   }, []);
 
@@ -95,8 +95,8 @@ export default function App() {
       {/* Initial Brand Curtain */}
       <div
         aria-hidden={booted}
-        className={`fixed inset-0 z-[100] bg-[#050506] flex flex-col items-center justify-center gap-5 transition-opacity duration-700 pointer-events-none ${
-          booted ? 'opacity-0' : 'opacity-100'
+        className={`fixed inset-0 z-[100] bg-[#050506] flex flex-col items-center justify-center gap-5 transition-opacity duration-700 ${
+          booted ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
         <span className="font-display text-sm tracking-[0.42em] uppercase text-[#c9a25e]">
@@ -105,7 +105,7 @@ export default function App() {
         <div className="w-44 h-px bg-white/15 overflow-hidden relative">
           <div
             className="absolute inset-y-0 left-0 bg-[#c9a25e] transition-all duration-200"
-            style={{ width: `${Math.max(18, loadPct)}%` }}
+            style={{ width: `${Math.max(6, loadPct)}%` }}
           />
         </div>
       </div>

@@ -15,7 +15,15 @@ interface FramesManifest {
 }
 
 const KEEP_WINDOW = 90;
-const DECODE_AHEAD = 24;
+const DECODE_AHEAD = 36;
+const CONCURRENCY = 8;
+
+const STATIC_IMAGES = [
+  '/src/assets/images/huracan_aero_windtunnel_1794998143712.jpg',
+  '/src/assets/images/huracan_engine_v10_1794998143845.jpg',
+  '/src/assets/images/huracan_interior_cockpit_1794998145062.jpg',
+  '/src/assets/images/huracan_wheel_ccb_1794998145072.jpg',
+];
 
 export const VideoScrollStage: React.FC<VideoScrollStageProps> = ({
   scrollProgressRef,
@@ -49,13 +57,21 @@ export const VideoScrollStage: React.FC<VideoScrollStageProps> = ({
     const frameURL = (i: number) =>
       state.pattern.replace('%04d', String(i + 1).padStart(4, '0'));
 
-    const fetchBlob = async (i: number) => {
+    const fetchBlob = async (i: number, retries = 2) => {
       if (state.blobs[i] || cancelled) return state.blobs[i];
-      const res = await fetch(frameURL(i));
-      if (!res.ok) throw new Error(`Failed frame ${i}`);
-      const blob = await res.blob();
-      if (!cancelled) state.blobs[i] = blob;
-      return blob;
+      for (let attempt = 0; attempt <= retries; attempt++) {
+        try {
+          const res = await fetch(frameURL(i));
+          if (!res.ok) throw new Error(`Failed frame ${i}`);
+          const blob = await res.blob();
+          if (!cancelled) state.blobs[i] = blob;
+          return blob;
+        } catch (err) {
+          if (attempt === retries || cancelled) return null;
+          await new Promise((r) => setTimeout(r, 120 * (attempt + 1)));
+        }
+      }
+      return null;
     };
 
     const decode = async (i: number) => {
@@ -200,41 +216,57 @@ export const VideoScrollStage: React.FC<VideoScrollStageProps> = ({
         state.pattern = manifest.pattern;
         state.blobs = new Array(manifest.count).fill(null);
 
-        const eagerCount = Math.min(Math.ceil(manifest.count * 0.16), 32);
+        const totalItems = manifest.count + STATIC_IMAGES.length;
         let loaded = 0;
 
-        await Promise.all(
-          Array.from({ length: eagerCount }, (_, i) =>
-            fetchBlob(i)
-              .then(() => {
-                loaded++;
-                onLoadProgress?.(Math.round((loaded / eagerCount) * 100));
-              })
-              .catch(() => {})
-          )
-        );
+        const reportProgress = () => {
+          loaded++;
+          const pct = Math.min(100, Math.round((loaded / totalItems) * 100));
+          onLoadProgress?.(pct);
+        };
+
+        let cursor = 0;
+        const frameWorker = async () => {
+          while (cursor < manifest.count && !cancelled) {
+            const idx = cursor++;
+            await fetchBlob(idx);
+            reportProgress();
+          }
+        };
+
+        const staticWorker = async (url: string) => {
+          await new Promise<void>((resolve) => {
+            const img = new Image();
+            img.onload = () => resolve();
+            img.onerror = () => resolve();
+            img.src = url;
+          });
+          reportProgress();
+        };
+
+        // Download all frames and static images completely before lifting the curtain
+        await Promise.all([
+          ...Array.from(
+            { length: Math.min(CONCURRENCY, manifest.count) },
+            () => frameWorker()
+          ),
+          ...STATIC_IMAGES.map((url) => staticWorker(url)),
+        ]);
 
         if (cancelled) return;
+
+        // Pre-decode initial frame and immediate upcoming frames for instant responsiveness
         await decode(0);
+        for (let i = 1; i < Math.min(24, manifest.count); i++) {
+          void decode(i);
+        }
+
         state.ready = true;
         drawFrame(0);
+        onLoadProgress?.(100);
         onReady?.();
 
         rafId = requestAnimationFrame(tick);
-
-        let cursor = eagerCount;
-        await Promise.all(
-          Array.from({ length: 4 }, async () => {
-            while (cursor < manifest.count && !cancelled) {
-              const idx = cursor++;
-              try {
-                await fetchBlob(idx);
-              } catch {
-                // ignore transient failure; retried on demand
-              }
-            }
-          })
-        );
       } catch {
         onReady?.();
       }
