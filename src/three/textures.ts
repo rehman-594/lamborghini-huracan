@@ -323,7 +323,7 @@ export function createCockpitClusterTexture(): THREE.CanvasTexture {
 
     ctx.fillStyle = '#c9a25e';
     ctx.font = '600 13px monospace';
-    ctx.fillText('CORSA · 0 KM/H', cx, cy + 44);
+    ctx.fillText('TRACK · 0 MPH', cx, cy + 44);
 
     ctx.fillStyle = 'rgba(255,255,255,0.5)';
     ctx.font = '12px monospace';

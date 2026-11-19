@@ -55,7 +55,7 @@ export const InteriorSection: React.FC<InteriorSectionProps> = ({
             ) : (
               <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-[#12141a] to-[#060709] p-12 text-center">
                 <p className="font-display text-2xl text-white">
-                  Huracán Tecnica Driver Cockpit · Nero Ade Alcantara &amp; Carbon
+                  Huracán Tecnica Driver Cockpit · Jet Black Alcantara &amp; Carbon Fiber
                 </p>
               </div>
             )}

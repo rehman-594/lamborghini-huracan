@@ -97,7 +97,7 @@ export const SpecsSection: React.FC = () => {
               Technical Homologation Data
             </h3>
             <span className="font-mono-tabular text-xs text-white/45">
-              EU Spec · Dry Weight
+              US / Global Spec · Dry Weight
             </span>
           </div>
 

@@ -31,7 +31,7 @@ export const Navbar: React.FC<NavbarProps> = ({ visible, onNavigate }) => {
           { id: 'engineering', label: 'Engineering' },
           { id: 'specs', label: 'Specifications' },
           { id: 'interior', label: 'Cockpit' },
-          { id: 'atelier', label: 'Atelier' },
+          { id: 'atelier', label: 'Custom Studio' },
         ].map((link) => (
           <a
             key={link.id}

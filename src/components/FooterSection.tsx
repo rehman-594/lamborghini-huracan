@@ -41,21 +41,21 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-20 border-b border-white/[0.08] items-start">
           <div className="lg:col-span-7">
             <p className="font-mono-tabular text-xs tracking-[0.28em] uppercase text-[#c9a25e]">
-              Ad Personam Atelier
+              Custom Studio
             </p>
             <h2 className="mt-4 font-display text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-white [text-wrap:balance]">
               Pure ten-cylinder emotion. Commissioned to your specification.
             </h2>
             <p className="mt-5 text-base text-white/60 max-w-xl leading-relaxed">
-              Your selected Ad Personam commission specification is{' '}
+              Your selected custom specification is{' '}
               <span className="text-white font-medium">{finish.name}</span>. Choose your
               preferred exterior finish below to prepare a private specification dossier.
             </p>
 
-            {/* Ad Personam Exterior Finish Selector for Dossier */}
+            {/* Custom Exterior Finish Selector for Dossier */}
             <div className="mt-8">
               <div className="text-xs font-mono-tabular uppercase tracking-[0.16em] text-white/45 mb-3">
-                Ad Personam Exterior Finish · {finish.name}
+                Custom Exterior Finish · {finish.name}
               </div>
               <div className="flex flex-wrap items-center gap-3">
                 {PAINT_FINISHES.map((p) => {
@@ -97,7 +97,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               <div className="mt-6 p-5 rounded-xl border border-[#c9a25e]/40 bg-[#121318]">
                 <div className="flex items-center gap-2.5 text-sm font-medium text-[#e5c485]">
                   <Check className="w-4 h-4" />
-                  <span>Atelier Dossier Prepared</span>
+                  <span>Specification Dossier Prepared</span>
                 </div>
                 <p className="mt-2 text-xs text-white/65 leading-relaxed">
                   Configuration recorded for <span className="text-white">{email}</span>{' '}
@@ -128,7 +128,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="driver@atelier.com"
+                    placeholder="driver@studio.com"
                     className="w-full px-3.5 py-2.5 rounded-lg border border-white/15 bg-[#050506] text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[#c9a25e]"
                   />
                 </div>
@@ -145,11 +145,11 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                     onChange={(e) => setCity(e.target.value)}
                     className="w-full px-3.5 py-2.5 rounded-lg border border-white/15 bg-[#050506] text-sm text-white focus:outline-none focus:border-[#c9a25e]"
                   >
-                    <option value="Sant’Agata / Milan">Sant’Agata Bolognese / Milan</option>
-                    <option value="London Mayfair">London Mayfair</option>
-                    <option value="Dubai DIFC">Dubai DIFC</option>
-                    <option value="Tokyo Aoyama">Tokyo Aoyama</option>
+                    <option value="New York Manhattan">New York Manhattan</option>
                     <option value="Beverly Hills">Beverly Hills</option>
+                    <option value="Miami South Beach">Miami South Beach</option>
+                    <option value="London Mayfair">London Mayfair</option>
+                    <option value="Tokyo Aoyama">Tokyo Aoyama</option>
                   </select>
                 </div>
 
@@ -177,8 +177,8 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               Huracán Tecnica
             </span>
             <p className="mt-3 text-xs text-white/45 leading-relaxed max-w-xs">
-              Digital flagship showcase celebrating naturally aspirated Italian V10
-              engineering from Sant’Agata Bolognese.
+              Digital flagship showcase celebrating naturally aspirated V10 performance
+              and precision engineering.
             </p>
           </div>
 
@@ -237,7 +237,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                   onClick={() => onNavigate('atelier')}
                   className="hover:text-white transition-colors cursor-pointer"
                 >
-                  Ad Personam Finishes
+                  Custom Finishes
                 </button>
               </li>
             </ul>
@@ -257,7 +257,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
 
         <div className="mt-12 pt-6 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono-tabular uppercase tracking-[0.16em] text-white/35">
           <span>Automobili Lamborghini · Huracán Tecnica</span>
-          <span>640 CV · 5,204 cm³ V10</span>
+          <span>640 hp · 5.2L V10</span>
         </div>
       </div>
     </footer>
