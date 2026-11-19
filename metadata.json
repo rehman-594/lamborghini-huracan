@@ -1,0 +1,6 @@
+{
+  "name": "Lamborghini Huracán Tecnica — 3D Showroom",
+  "description": "An Apple-inspired interactive 3D automotive showroom featuring a scroll-driven Lamborghini Huracán Tecnica experience, engineering breakdowns, verified V10 specifications, and 360° studio inspection.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

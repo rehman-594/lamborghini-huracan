@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  :root {
+    --bg: #050506;
+    --surface: #0c0d10;
+    --surface-elevated: #14151a;
+    --accent: #c9a25e;
+    --accent-bright: #e5c485;
+    --text: #f5f5f7;
+    --text-dim: rgba(245, 245, 247, 0.58);
+  }
+
+  html {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    scroll-behavior: auto;
+    overflow-x: clip;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    overflow-x: clip;
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-mono-tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.img-editorial-mask {
+  -webkit-mask-image: radial-gradient(ellipse 92% 90% at 50% 50%, black 64%, transparent 100%);
+  mask-image: radial-gradient(ellipse 92% 90% at 50% 50%, black 64%, transparent 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
